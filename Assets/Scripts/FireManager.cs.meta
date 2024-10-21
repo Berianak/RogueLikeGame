@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 809c618a2997ef94486c9af7242d3709
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - map: {instanceID: 0}
+  - BurningLand: {fileID: 11400000, guid: 4c619d5bc105f5944b6426fabab2f2ba, type: 2}
+  - mapManager: {instanceID: 0}
+  - firePrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
