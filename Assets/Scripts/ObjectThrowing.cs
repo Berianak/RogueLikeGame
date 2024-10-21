@@ -11,10 +11,9 @@ public class ObjectThrowing : MonoBehaviour
     Collider2D item;
     GameObject pickedItem;
     bool trowing;
-    Vector3 trowFinish;
+    Vector3 trowEnd;
 
     [SerializeField] Tilemap tileMap;
-    [SerializeField] Tile wallTile;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -55,7 +54,7 @@ public class ObjectThrowing : MonoBehaviour
                     Vector2 trowPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Vector3Int tpos = tileMap.WorldToCell(trowPoint);
                     pickedItem.transform.position = this.transform.position;
-                    trowFinish = tileMap.GetCellCenterWorld(tpos);
+                    trowEnd = tileMap.GetCellCenterWorld(tpos);
                     pickedItem.SetActive(true);
                     trowing = true;
                     pickedUp = false;
@@ -64,41 +63,34 @@ public class ObjectThrowing : MonoBehaviour
         }
         if (trowing == true)
         {
-            var step = 1.0f * Time.deltaTime;
-            pickedItem.transform.position = Vector3.MoveTowards(pickedItem.transform.position, trowFinish, step);
-            Vector3 collisionCheckPoint = (Vector3.Normalize(trowFinish - pickedItem.transform.position)) * 1f;
-            Debug.DrawRay(pickedItem.transform.position, collisionCheckPoint, UnityEngine.Color.red);
-            var wallPos = tileMap.WorldToCell(collisionCheckPoint);
-            var checkedTile = tileMap.GetTile(wallPos);
-            if (checkedTile == wallTile)
-            {
-                Debug.Log("wall!");
-            }
+            var step = 10.0f * Time.deltaTime;
+            pickedItem.transform.position = Vector3.MoveTowards(pickedItem.transform.position, trowEnd, step);
+            //Vector3 collisionCheckPoint = (Vector3.Normalize(trowEnd - pickedItem.transform.position)) * 1f;
             //Debug.Log(LayerMask.GetMask("Walls"));
             //LayerMask layerMask = LayerMask.GetMask("Walls");
-            //Debug.DrawRay(pickedItem.transform.position, trowFinish - pickedItem.transform.position, Color.red);
-            //RaycastHit2D wallhit = Physics2D.Raycast(pickedItem.transform.position, trowFinish - pickedItem.transform.position, 0.5f, 1 << LayerMask.NameToLayer("Walls"));
+            //Debug.DrawRay(pickedItem.transform.position, trowEnd - pickedItem.transform.position, Color.red);
+            //RaycastHit2D wallhit = Physics2D.Raycast(pickedItem.transform.position, trowEnd - pickedItem.transform.position, 0.5f, 1 << LayerMask.NameToLayer("Walls"));
             //if (Physics2D.OverlapPoint(pickedItem.transform.position, LayerMask.GetMask("Walls")))
-            //Vector3 collisionCheckPoint = (Vector3.Normalize(trowFinish - pickedItem.transform.position)) * 1f;
+            //Vector3 collisionCheckPoint = (Vector3.Normalize(trowEnd - pickedItem.transform.position)) * 1f;
             //Debug.DrawRay(pickedItem.transform.position, collisionCheckPoint, UnityEngine.Color.red);
-            //Collider2D currentCollider = Physics2D.OverlapPoint(pickedItem.transform.position, LayerMask.GetMask("Walls"));
-            //if (currentCollider != null)
-            //{
-            //    Debug.Log("hit");
-            //    Vector3Int dropPoint = tileMap.WorldToCell(pickedItem.transform.position);
-            //    trowFinish = tileMap.GetCellCenterWorld(dropPoint);
-            //}
+            Collider2D currentCollider = Physics2D.OverlapPoint(pickedItem.transform.position, LayerMask.GetMask("Walls"));
+            if (currentCollider != null)
+            {
+                Debug.Log("hit");
+                Vector3Int dropPoint = tileMap.WorldToCell(pickedItem.transform.position);
+                trowEnd = tileMap.GetCellCenterWorld(dropPoint);
+            }
             //if (wallhit)
             //{
             //    Debug.Log("hit");
             //    Vector3Int dropPoint = tileMap.WorldToCell(pickedItem.transform.position);
-            //    trowFinish = tileMap.GetCellCenterWorld(dropPoint);
+            //    trowEnd = tileMap.GetCellCenterWorld(dropPoint);
             //}
-            //if (pickedItem.transform.position == trowFinish)
-            //{ 
-            //    trowing = false;
-            //    pickedItem = null;
-            //}
+            if (pickedItem.transform.position == trowEnd)
+            { 
+                trowing = false;
+                pickedItem = null;
+            }
         }
     }
 }

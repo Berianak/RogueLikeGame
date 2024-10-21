@@ -6,13 +6,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.spoiledcat.git": {
-      "version": "1.0.44",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://registry.spoiledcat.com"
-    },
     "com.unity.2d.animation": {
       "version": "9.1.2",
       "depth": 1,
